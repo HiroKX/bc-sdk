@@ -16,8 +16,8 @@
     "license"     : "MIT",
     "authors"     : [
         {
-            "name"  : "Morten Harders",
-            "email" : "mh@coolrunner.dk"
+            "name"  : "Robin Lagler",
+            "email" : "r.lagler@laposte.net"
         }
     ],
     "autoload"    : {
