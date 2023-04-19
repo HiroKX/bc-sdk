@@ -1,8 +1,8 @@
 <?php
 /**
  * @package   business-central-sdk
- * @author    Morten Harders 🐢
- * @copyright 2020
+ * @author    Robin Lagler
+ * @copyright 2023
  */
 
 namespace BusinessCentral;

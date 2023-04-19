@@ -1,8 +1,8 @@
 <?php
 /**
  * @package   business-central-sdk
- * @author    Morten Harders 🐢
- * @copyright 2020
+ * @author    Robin Lagler
+ * @copyright 2023
  */
 
 namespace BusinessCentral;
@@ -55,7 +55,7 @@ class Entity implements \ArrayAccess, \JsonSerializable, Jsonable, Arrayable
     {
         $this->query = $query;
         $this->type  = $type;
-
+        $this->fillable = array_filter($this->type->properties(),fn($p) => !$p->read_only);
         $this->setAttributes($attributes ?: []);
     }
 
