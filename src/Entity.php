@@ -93,7 +93,7 @@ class Entity implements \ArrayAccess, \JsonSerializable, Jsonable, Arrayable
     public function fill(array $attributes)
     {
         foreach ($attributes as $key => $value) {
-            if (in_array($key, $this->fillable)) {
+            if (array_key_exists($key, $this->fillable)) {
                 $this->{$key} = $value;
             }
         }
