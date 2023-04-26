@@ -119,6 +119,12 @@ class EntityCollection implements \ArrayAccess, \Iterator, \JsonSerializable, Js
         return $this->query->clone()->navigateTo($this->getEntitySet()->name, $identifier)->first($default);
     }
 
+    private function findFromIdentifiers(string $champ, int|string $id)
+    {
+        return $this->query->clone()->where($champ, $id)->first();
+
+    }
+
     /**
      * Create and save a new entity to the current collection
      *
@@ -150,6 +156,17 @@ class EntityCollection implements \ArrayAccess, \Iterator, \JsonSerializable, Js
             return $entity;
         }
 
+        return false;
+    }
+
+    public function updateFromIdentifiers(string $champ,string|int $id, array $attributes)
+    {
+        $entity = $this->findFromIdentifiers($champ,$id);
+        if ($entity) {
+            $entity->fill($attributes);
+            $entity->save();
+            return $entity;
+        }
         return false;
     }
 
@@ -286,4 +303,6 @@ class EntityCollection implements \ArrayAccess, \Iterator, \JsonSerializable, Js
             return $this->query()->clone()->{$name}(...$arguments);
         }
     }
+
+
 }
