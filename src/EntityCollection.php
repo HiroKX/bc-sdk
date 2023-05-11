@@ -119,11 +119,17 @@ class EntityCollection implements \ArrayAccess, \Iterator, \JsonSerializable, Js
         return $this->query->clone()->navigateTo($this->getEntitySet()->name, $identifier)->first($default);
     }
 
-    private function findFromIdentifiers(string $champ, int|string $id)
-    {
+    private function findFromIdentifiers(string $champ, int|string $id) {
         return $this->query->clone()->where($champ, $id)->first();
-
     }
+    
+    private function findFromIdentifiersArray(array $identifiers) {
+		$query = $this->query->clone();
+		foreach ($identifiers as $key => $value) {
+			$query = $query->where($key, $value);
+		}
+		return $query->first();
+	}
 
     /**
      * Create and save a new entity to the current collection
@@ -159,8 +165,7 @@ class EntityCollection implements \ArrayAccess, \Iterator, \JsonSerializable, Js
         return false;
     }
 
-    public function updateFromIdentifiers(string $champ,string|int $id, array $attributes)
-    {
+    public function updateFromIdentifiers(string $champ,string|int $id, array $attributes) {
         $entity = $this->findFromIdentifiers($champ,$id);
         if ($entity) {
             $entity->fill($attributes);
@@ -169,6 +174,16 @@ class EntityCollection implements \ArrayAccess, \Iterator, \JsonSerializable, Js
         }
         return false;
     }
+    
+    public function updateFromIdentifiersArray(array $identifiers, array $attributes) {
+		$entity = $this->findFromIdentifiersArray($identifiers);
+		if ($entity) {
+			$entity->fill($attributes);
+			$entity->save();
+			return $entity;
+		}
+		return false;
+	}
 
     public function delete(string $id)
     {
